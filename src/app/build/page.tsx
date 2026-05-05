@@ -1193,7 +1193,7 @@ function BuilderContent() {
                                     {/* Text Style and Text Size controls removed */}
                                     <div>
                                         <div className="flex items-center justify-between mb-2">
-                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2"><span className="w-5 h-5 rounded-full text-white text-[9px] flex items-center justify-center font-black" style={{ background: primary }}>02</span>Layout Style</label>
+                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Layout Style</label>
                                             <span className="text-xs text-gray-400">{THUMB_CONFIGS[layout].label}</span>
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -1244,6 +1244,7 @@ function BuilderContent() {
                                     )}
                                     {brand.images.length > 0 && (
                                         <div>
+                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Campus Images</label>
                                             <div className="flex gap-2 flex-wrap items-center">
                                                 {/* Upload Button */}
                                                 <label className="w-11 h-7 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all group active:scale-95">
@@ -1312,7 +1313,7 @@ function BuilderContent() {
 
                                         {brand.images.length > 0 && (
                                             <div className="mt-6">
-                                                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2"><span className="w-5 h-5 rounded-full text-white text-[9px] flex items-center justify-center font-black" style={{ background: primary }}>04</span>Photo Filter</label>
+                                                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Photo Filter</label>
                                                 <div className="flex gap-2">
                                                     {([{ label: 'Original', value: 'none' }, { label: 'Mono', value: 'grayscale(100%) contrast(110%) brightness(105%)' }]).map(f => {
                                                         const isActive = photoFilter === f.value;
@@ -1339,7 +1340,6 @@ function BuilderContent() {
                                         return (
                                             <div className={accentDisabled ? 'opacity-30 pointer-events-none grayscale' : ''}>
                                                 <label className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-2 transition-colors ${accentDisabled ? 'text-gray-300' : 'text-gray-400'}`}>
-                                                    <span className="w-5 h-5 rounded-full text-white text-[9px] flex items-center justify-center font-black" style={{ background: accentDisabled ? '#d1d5db' : primary }}>05</span>
                                                     Accent Color
                                                     {accentDisabled && <span className="ml-1 text-[9px] font-semibold text-gray-300 normal-case tracking-normal">— not available</span>}
                                                 </label>
@@ -1355,7 +1355,7 @@ function BuilderContent() {
                                         );
                                     })()}
                                     <div>
-                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2"><span className="w-5 h-5 rounded-full text-white text-[9px] flex items-center justify-center font-black" style={{ background: primary }}>06</span>Logo Variant</label>
+                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logo Variant</label>
                                         <div className="flex gap-2 flex-wrap">
                                             <button onClick={() => setLogoIndex(-1)} className="w-14 h-14 rounded-lg border-2 flex flex-col items-center justify-center p-1.5 transition-all hover:shadow-md" style={{ borderColor: logoIndex === -1 ? primary : "#e5e7eb", background: logoIndex === -1 ? `${primary}10` : "#f9fafb", color: logoIndex === -1 ? primary : "#9ca3af" }}>
                                                 <Ban className="w-4 h-4 mb-0.5" />
@@ -1376,7 +1376,6 @@ function BuilderContent() {
                                     {brand && (
                                         <div>
                                             <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
-                                                <span className="w-5 h-5 rounded-full text-white text-[9px] flex items-center justify-center font-black" style={{ background: primary }}>07</span>
                                                 Logo Size
                                             </label>
                                             <div className="flex gap-2">
