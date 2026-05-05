@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, Suspense } from "react";
-import { Download, RefreshCw, ChevronLeft, ChevronRight, X, Shuffle, CheckCircle, Upload, ChevronDown, Ban, Check } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { toBlob, toPng } from "html-to-image";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { Download, RefreshCw, X, CheckCircle, Upload } from "lucide-react";
+import { toBlob } from "html-to-image";
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
-import { ALL_UNIVERSITIES } from "@/data/universities";
 
 /* ═══════════════════════════════════════════════════════════════
    TYPES
@@ -50,9 +48,6 @@ type Layout = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 const W = 1584;
 const H = 396;
 
-// Danger zone (avatar area) – nothing of value can sit here
-const DZ_X = 0;
-const DZ_Y = 132;
 const DZ_W = 568;
 const DZ_H = 264;
 
@@ -82,15 +77,6 @@ function isDark(hex: string) { return luma(hex) < 140; }
 /** Pick contrasting text colour (black or white) for a given background */
 function contrastText(bg: string) { return isDark(bg) ? "#ffffff" : "#111111"; }
 
-/** Blend two hex colours at a ratio (0=a, 1=b) */
-function blendHex(a: string, b: string, t: number): string {
-    const [ar, ag, ab] = hexToRgb(a);
-    const [br, bg2, bb] = hexToRgb(b);
-    const r = Math.round(ar + (br - ar) * t);
-    const g = Math.round(ag + (bg2 - ag) * t);
-    const bl = Math.round(ab + (bb - ab) * t);
-    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bl.toString(16).padStart(2, "0")}`;
-}
 
 /** Pick the best contrasting background colour from the brand palette.
  *  Returns null if no fix is needed (logo already contrasts with panel). */
@@ -227,29 +213,6 @@ function SmartLogo({
    GHOST CREST HELPER
    Gracefully handles JPG (solid bg) and PNG crests for watermarking
 ═══════════════════════════════════════════════════════════════ */
-function GhostCrest({ iconLogo, primary, style, opacity = 0.1 }: { iconLogo: any, primary: string, style: any, opacity?: number }) {
-    if (!iconLogo) return null;
-    const isDarkBg = isDark(primary);
-
-    let filter = isDarkBg ? "brightness(0) invert(1)" : "brightness(0)";
-    let mixBlendMode: any = "normal";
-
-    if (iconLogo.hasBg) {
-        if (isDarkBg) {
-            filter = "grayscale(1) invert(1)";
-            mixBlendMode = "screen";
-        } else {
-            filter = "grayscale(1)";
-            mixBlendMode = "multiply";
-        }
-    }
-
-    return (
-        <img src={iconLogo.url} alt="" crossOrigin="anonymous"
-            style={{ ...style, filter, mixBlendMode, pointerEvents: "none", opacity }}
-            onError={() => { }} />
-    );
-}
 
 /* ═══════════════════════════════════════════════════════════════
    FONT HELPER
@@ -272,9 +235,6 @@ function getHeadlineFont(textStyle: "blocky" | "elegant" | "mono", domain?: stri
 type LayoutProps = {
     brand: BrandData;
     text: string;
-    badge?: string;
-    estDate?: string;
-    statusTag?: string;
     img?: string;
     logoSrc: string;
     logoHasBg: boolean;
@@ -529,9 +489,7 @@ function L4({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
    Massive watermark in the middle, and a sharp solid panel splitting the 
    right side cleanly. Very modern.
 ═══════════════════════════════════════════════════════════════ */
-function L5({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text, img, logoSrc, logoHasBg, logoIsLight, primary, headlineColor, bgOpacity = 100, tintIndex = 0, photoFilter = "none" }: LayoutProps) {
-    const rawTint5 = brand.colors[tintIndex % brand.colors.length] ?? primary;
-    const tintColor = pickBestPanelColor(null, logoIsLight ?? true, brand.colors, rawTint5);
+function L5({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text, img, logoSrc, logoHasBg, logoIsLight, primary, headlineColor, bgOpacity = 100, photoFilter = "none" }: LayoutProps) {
     const brandFont = getFont(brand.fonts?.[0]);
     const font = getHeadlineFont(textStyle, brand.domain);
 
@@ -616,10 +574,10 @@ function L7({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
    BANNER WRAPPER — routes to the right layout
 ═══════════════════════════════════════════════════════════════ */
 function BannerCanvas({
-    brand, text, badge, estDate, statusTag, layout, imgIndex, logoIndex,
+    brand, text, layout, imgIndex, logoIndex,
     logoPos = 'bottom', bgStyle = 'none', tintIndex = 0, bgOpacity = 100, photoFilter = "none", logoScale = 1.0, textSize = 1.0, textStyle = "blocky", customImage = null, dataUrlCache = new Map()
 }: {
-    brand: BrandData; text: string; badge?: string; estDate?: string; statusTag?: string; layout: Layout; imgIndex: number; logoIndex: number;
+    brand: BrandData; text: string; layout: Layout; imgIndex: number; logoIndex: number;
     logoPos?: 'top' | 'bottom' | 'center';
     bgStyle?: 'none' | 'brand';
     tintIndex?: number;
@@ -688,7 +646,7 @@ function BannerCanvas({
         headlineColor = contrastText(primary);
     }
 
-    const p = { brand, text, badge, estDate, statusTag, img, logoSrc, logoHasBg, logoIsLight, primary, secondary, headlineColor, logoPos, bgStyle, tintIndex, bgOpacity, photoFilter, logoScale, textSize, textStyle };
+    const p = { brand, text, img, logoSrc, logoHasBg, logoIsLight, primary, secondary, headlineColor, logoPos, bgStyle, tintIndex, bgOpacity, photoFilter, logoScale, textSize, textStyle };
 
     return (
         <div className="w-full h-full relative overflow-hidden bg-white">
@@ -806,9 +764,6 @@ function BuilderContent() {
 
     const [brand, setBrand] = useState<BrandData | null>(null);
     const [text, setText] = useState("");
-    const [badge, setBadge] = useState("");
-    const [estDate, setEstDate] = useState("");
-    const [statusTag, setStatusTag] = useState("");
     const [layout, setLayout] = useState<Layout>(0);
     const [imgIndex, setImgIndex] = useState(0);
     const [logoIndex, setLogoIndex] = useState(0);
@@ -972,12 +927,6 @@ function BuilderContent() {
         return () => { isMounted = false; };
     }, [params]);
 
-    const changeCampus = (campus: string) => {
-        const newParams = new URLSearchParams(params.toString());
-        newParams.set("campus", campus);
-        router.push(`/build?${newParams.toString()}`);
-    };
-
     // ── Layout navigation ─────────────────────────────────────
     const prevLayout = () => setLayout(l => ((l - 1 + LAYOUTS.length) % LAYOUTS.length) as Layout);
     const nextLayout = () => setLayout(l => ((l + 1) % LAYOUTS.length) as Layout);
@@ -989,8 +938,6 @@ function BuilderContent() {
         setImgIndex(i => (i + 1) % brand.images.length);
     };
 
-    // Find the university in the data to get available campuses
-    const uniMetadata = ALL_UNIVERSITIES.find(u => u.domain === params.get("domain"));
 
     // ── Download ──────────────────────────────────────────────
     const handleDownload = async () => {
@@ -1116,9 +1063,6 @@ function BuilderContent() {
                                             <BannerCanvas
                                                 brand={brand}
                                                 text={text}
-                                                badge={badge}
-                                                estDate={estDate}
-                                                statusTag={statusTag}
                                                 layout={layout}
                                                 imgIndex={imgIndex}
                                                 logoIndex={logoIndex}
@@ -1138,17 +1082,14 @@ function BuilderContent() {
                                         {/* ── MASTER BANNER (FOR EXPORT) ── */}
                                         {/* Hidden from view, keys ensure it updates instantly with NO transition states */}
                                         <div style={{ position: 'absolute', top: -9999, left: -9999, pointerEvents: 'none' }}>
-                                            <div 
-                                                ref={exportRef} 
+                                            <div
+                                                ref={exportRef}
                                                 key={`export-${layout}-${imgIndex}-${logoIndex}`}
                                                 style={{ width: W, height: H, position: 'relative' }}
                                             >
                                                 <BannerCanvas
                                                     brand={brand}
                                                     text={text}
-                                                    badge={badge}
-                                                    estDate={estDate}
-                                                    statusTag={statusTag}
                                                     layout={layout}
                                                     imgIndex={imgIndex}
                                                     logoIndex={logoIndex}
@@ -1284,7 +1225,7 @@ function BuilderContent() {
                                                             <img src={customImage} alt="Uploaded" className="w-full h-full object-cover" />
                                                             {imgIndex === -1 && (
                                                                 <div className="absolute inset-0 bg-blue-600/10 flex items-center justify-center">
-                                                                    <Check className="w-3 h-3 text-blue-600 drop-shadow-sm font-bold" />
+                                                                    <span className="w-3 h-3 text-blue-600 font-bold text-[8px]">✓</span>
                                                                 </div>
                                                             )}
                                                         </button>
@@ -1424,20 +1365,9 @@ function BuilderContent() {
         </div>
 
             {/* DOWNLOAD INSTRUCTION POPUP */}
-            <AnimatePresence>
                 {showDownloadPopup && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
-                    >
-                        <motion.div
-                            initial={{ scale: 0.95, y: 10 }}
-                            animate={{ scale: 1, y: 0 }}
-                            exit={{ scale: 0.95, y: 10 }}
-                            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]"
-                        >
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+                        <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
                             {/* Header */}
                             <div className="p-6 border-b border-gray-100 flex items-start justify-between">
                                 <div>
@@ -1512,10 +1442,9 @@ function BuilderContent() {
                                     Tilbake til start
                                 </button>
                             </div>
-                        </motion.div>
-                    </motion.div>
+                        </div>
+                    </div>
                 )}
-            </AnimatePresence>
         </>
     );
 }
