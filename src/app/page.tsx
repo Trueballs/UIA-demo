@@ -49,7 +49,7 @@ export default function Home() {
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
           <input
-            type="password"
+            type="text"
             value={password}
             onChange={e => { setPassword(e.target.value); setError(false); }}
             placeholder="Passord"
