@@ -1,61 +1,74 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import HeroVisualization from "@/components/HeroVisualization";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    if (localStorage.getItem("uia_demo_auth") === "true") {
+      router.replace("/build?domain=uia.no");
+    } else {
+      setChecking(false);
+    }
+  }, [router]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "UIA2026") {
+      localStorage.setItem("uia_demo_auth", "true");
+      router.push("/build?domain=uia.no");
+    } else {
+      setError(true);
+      setPassword("");
+    }
+  };
+
+  if (checking) return null;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-lexend w-full overflow-x-hidden text-slate-900 selection:bg-blue-100 selection:text-blue-700 relative">
-      
+    <div className="min-h-screen bg-[#F8FAFC] font-lexend flex items-center justify-center px-6">
+      <div className="w-full max-w-sm flex flex-col items-center gap-8">
+        <Image
+          src="/norske-universiteter/UiA/Logo/uia-horizontal-with-name-positive.png"
+          alt="UiA logo"
+          width={200}
+          height={60}
+          className="object-contain"
+          unoptimized
+        />
 
-      {/* FULL WIDTH COLUMN */}
-      <main className="w-full flex flex-col bg-transparent relative z-10">
- 
-        {/* ─── TOP NAVIGATION ─── */}
-        <Header />
+        <p className="text-slate-600 text-center text-[15px]">
+          Demo laget for Universitetet i Agder
+        </p>
 
-        {/* ─── HERO SECTION ─── */}
-        <section className="relative z-20 overflow-visible">
-          {/* Removed ambient glows for cleaner look */}
- 
-          <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-20 md:pt-36 pb-16 md:pb-24">
-            {/* SIDE-BY-SIDE Layout: Content Left, Comparison Visual Right */}
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 relative">
-              
-              {/* ── LEFT CONTENT: HEADING & CTA ── */}
-              <div
-                className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-3xl lg:w-[50%] z-10"
-              >
-                <h1 className="font-lexend font-extrabold leading-[1.1] tracking-tight text-[#1a1c20]
-                  text-[32px] sm:text-[42px] md:text-[50px] lg:text-[60px] mb-10">
-                  Det perfekte banneret <br />
-                  for <span className="text-blue-600">LinkedIn-profilen din.</span>
-                </h1>
-
-                <div className="w-full lg:w-max flex justify-center lg:justify-start group">
-                  <button
-                    onClick={() => router.push("/build?domain=uia.no")}
-                    className="px-10 md:px-12 py-5 md:py-6 bg-blue-600 text-white font-bold text-[18px] md:text-[20px] rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg flex items-center justify-center gap-4 active:scale-95"
-                  >
-                    Lag ditt banner
-                    <svg viewBox="0 0 24 24" className="w-6 md:w-7 h-6 md:h-7 fill-none stroke-current stroke-3" strokeWidth={3}>
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {/* ── RIGHT CONTENT: THE VISUALIZATION ── */}
-              <div className="w-full lg:w-[60%] lg:-mr-32 xl:-mr-40 flex justify-center lg:justify-end items-center pointer-events-none">
-                <HeroVisualization />
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
+          <input
+            type="password"
+            value={password}
+            onChange={e => { setPassword(e.target.value); setError(false); }}
+            placeholder="Passord"
+            className={`w-full px-5 py-4 rounded-2xl border text-[15px] outline-none transition-all bg-white ${
+              error ? "border-red-400 placeholder-red-300" : "border-slate-200 focus:border-blue-400"
+            }`}
+            autoFocus
+          />
+          {error && (
+            <p className="text-red-500 text-[13px] text-center">Feil passord. Prøv igjen.</p>
+          )}
+          <button
+            type="submit"
+            className="w-full py-4 bg-[#C8102E] text-white font-bold text-[16px] rounded-2xl hover:bg-[#a00e27] transition-all active:scale-95"
+          >
+            Gå til demo
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
