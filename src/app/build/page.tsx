@@ -1415,7 +1415,7 @@ function BuilderContent() {
                             </>
                         ) : (
                             <div className="md:col-span-2 py-20 text-center text-gray-400 italic">
-                                Search for your university to begin
+                                Søk etter universitetet ditt for å begynne
                             </div>
                         )}
                                         </div>
