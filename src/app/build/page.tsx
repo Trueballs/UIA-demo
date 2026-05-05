@@ -1169,7 +1169,7 @@ function BuilderContent() {
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
                                         <p className="text-gray-400 text-base italic">
-                                            {loading ? "Loading brand assets…" : "Search for your university to begin"}
+                                            {loading ? "Laster inn…" : "Søk etter universitetet ditt for å begynne"}
                                         </p>
                                     </div>
                                 )}
@@ -1524,7 +1524,7 @@ export default function BuildPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center bg-[#f0f2f5] text-gray-400">
-                Loading…
+                Laster…
             </div>
         }>
             <BuilderContent />
