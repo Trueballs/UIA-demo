@@ -31,8 +31,8 @@ export default function Home() {
               >
                 <h1 className="font-lexend font-extrabold leading-[1.1] tracking-tight text-[#1a1c20]
                   text-[32px] sm:text-[42px] md:text-[50px] lg:text-[60px] mb-10">
-                  Den perfekte avslutningen <br />
-                  på <span className="text-blue-600">din profil.</span>
+                  Det perfekte banneret <br />
+                  for <span className="text-blue-600">LinkedIn-profilen din.</span>
                 </h1>
 
                 <div className="w-full lg:w-max flex justify-center lg:justify-start group">

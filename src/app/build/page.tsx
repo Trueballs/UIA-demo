@@ -1210,7 +1210,7 @@ function BuilderContent() {
                                     {layout === 4 && (
                                         <div className="space-y-4">
                                             <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 animate-in fade-in slide-in-from-top-2">
-                                                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logo Alignment</p>
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logoposisjon</p>
                                                 <div className="flex gap-2">
                                                     {(['top', 'center', 'bottom'] as const).map(pos => (
                                                         <button key={pos}
@@ -1221,7 +1221,7 @@ function BuilderContent() {
                                                                 background: logoPos === pos ? `${primary}10` : "white",
                                                                 color: logoPos === pos ? primary : "#6b7280"
                                                             }}>
-                                                            {pos === 'top' ? 'Top Corner' : (pos === 'center' ? 'Center Point' : 'Bottom Corner')}
+                                                            {pos === 'top' ? 'Øverst' : (pos === 'center' ? 'Midten' : 'Nederst')}
                                                         </button>
                                                     ))}
                                                 </div>
