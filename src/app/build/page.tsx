@@ -1369,7 +1369,7 @@ function BuilderContent() {
                                         );
                                     })()}
                                     <div>
-                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Varianter</label>
+                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logo Varianter</label>
                                         <div className="flex gap-2 flex-wrap">
                                             {[...brand.logos].map((logo, i) => ({ logo, i })).sort((a,b) => {
                                                 const ai = a.logo.isIcon ?? false; const bi = b.logo.isIcon ?? false;
