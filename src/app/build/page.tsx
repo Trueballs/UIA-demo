@@ -1193,34 +1193,27 @@ function BuilderContent() {
                                 <div className="space-y-8 flex flex-col">
                                     {/* Text Style and Text Size controls removed */}
                                     <div>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Layout Style</label>
-                                            <span className="text-xs text-gray-400">{THUMB_CONFIGS[layout].label}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <button onClick={prevLayout}
-                                                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-colors text-gray-400">
-                                                <ChevronLeft className="w-4 h-4" />
-                                            </button>
-                                            <div className="flex gap-1 flex-1">
-                                                {([0, 1, 2, 3, 4, 5, 6, 7] as Layout[]).map(l => (
-                                                    <button key={l}
-                                                        onClick={() => setLayout(l)}
-                                                        className="flex-1 aspect-[4/1] rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95"
+                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Layout Style</label>
+                                        <div className="grid grid-cols-4 gap-2">
+                                            {([0, 1, 2, 3, 4, 5, 6, 7] as Layout[]).map(l => (
+                                                <button key={l}
+                                                    onClick={() => setLayout(l)}
+                                                    className="flex flex-col gap-1 active:scale-95 transition-all"
+                                                    style={{ outline: 'none' }}>
+                                                    <div className="w-full aspect-[4/1] rounded-lg overflow-hidden"
                                                         style={{
-                                                            outline: layout === l ? `3px solid #2563EB` : "0px solid transparent",
-                                                            outlineOffset: 3,
+                                                            outline: layout === l ? `2.5px solid #2563EB` : "2px solid transparent",
+                                                            outlineOffset: 2,
                                                         }}>
                                                         {THUMB_CONFIGS[l].preview(primary, brand.colors[1] || primary)}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                            <button onClick={nextLayout}
-                                                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-colors text-gray-400">
-                                                <ChevronRight className="w-4 h-4" />
-                                            </button>
+                                                    </div>
+                                                    <span className="text-[8px] font-black uppercase tracking-widest text-center w-full truncate leading-tight"
+                                                        style={{ color: layout === l ? '#2563EB' : '#9ca3af' }}>
+                                                        {THUMB_CONFIGS[l].label}
+                                                    </span>
+                                                </button>
+                                            ))}
                                         </div>
-                                        <p className="text-xs text-gray-400 mt-1.5">Style {layout + 1} of {LAYOUTS.length} · {THUMB_CONFIGS[layout].label}</p>
                                     </div>
                                     {layout === 4 && (
                                         <div className="space-y-4">
