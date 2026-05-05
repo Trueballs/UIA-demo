@@ -1193,24 +1193,20 @@ function BuilderContent() {
                                 <div className="space-y-8 flex flex-col">
                                     {/* Text Style and Text Size controls removed */}
                                     <div>
-                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Layout Style</label>
-                                        <div className="grid grid-cols-4 gap-2">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Layoutstil</label>
+                                            <span className="text-[10px] font-bold text-gray-500">{THUMB_CONFIGS[layout].label}</span>
+                                        </div>
+                                        <div className="grid grid-cols-4 gap-1.5">
                                             {([0, 1, 2, 3, 4, 5, 6, 7] as Layout[]).map(l => (
                                                 <button key={l}
                                                     onClick={() => setLayout(l)}
-                                                    className="flex flex-col gap-1 active:scale-95 transition-all"
-                                                    style={{ outline: 'none' }}>
-                                                    <div className="w-full aspect-[4/1] rounded-lg overflow-hidden"
-                                                        style={{
-                                                            outline: layout === l ? `2.5px solid #2563EB` : "2px solid transparent",
-                                                            outlineOffset: 2,
-                                                        }}>
-                                                        {THUMB_CONFIGS[l].preview(primary, brand.colors[1] || primary)}
-                                                    </div>
-                                                    <span className="text-[8px] font-black uppercase tracking-widest text-center w-full truncate leading-tight"
-                                                        style={{ color: layout === l ? '#2563EB' : '#9ca3af' }}>
-                                                        {THUMB_CONFIGS[l].label}
-                                                    </span>
+                                                    className="w-full aspect-[4/1] rounded-md overflow-hidden active:scale-95 transition-all"
+                                                    style={{
+                                                        outline: layout === l ? `2px solid #2563EB` : "2px solid transparent",
+                                                        outlineOffset: 2,
+                                                    }}>
+                                                    {THUMB_CONFIGS[l].preview(primary, brand.colors[1] || primary)}
                                                 </button>
                                             ))}
                                         </div>
@@ -1238,7 +1234,7 @@ function BuilderContent() {
                                     )}
                                     {brand.images.length > 0 && (
                                         <div>
-                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Campus Images</label>
+                                            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Campusbilder</label>
                                             {/* Campus toggle */}
                                             <div className="flex gap-1.5 mb-3">
                                                 {(['Kristiansand', 'Grimstad'] as const).map(campus => (
@@ -1326,7 +1322,7 @@ function BuilderContent() {
                                                 const pos = imgIndex >= 0 ? filtered.indexOf(brand.images[imgIndex]) : -1;
                                                 return (
                                                     <p className="text-xs text-gray-400 mt-2">
-                                                        {customImage ? "Custom image uploaded" : pos >= 0 ? `${campusFilter} — photo ${pos + 1} of ${filtered.length}` : `${campusFilter} — ${filtered.length} photos`}
+                                                        {customImage ? "Eget bilde lastet opp" : pos >= 0 ? `${campusFilter} — bilde ${pos + 1} av ${filtered.length}` : `${campusFilter} — ${filtered.length} bilder`}
                                                     </p>
                                                 );
                                             })()}
@@ -1335,7 +1331,7 @@ function BuilderContent() {
 
                                         {brand.images.length > 0 && (
                                             <div className="mt-6">
-                                                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Photo Filter</label>
+                                                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Bildefilter</label>
                                                 <div className="flex gap-2">
                                                     {([{ label: 'Original', value: 'none' }, { label: 'Mono', value: 'grayscale(100%) contrast(110%) brightness(105%)' }]).map(f => {
                                                         const isActive = photoFilter === f.value;
@@ -1362,7 +1358,7 @@ function BuilderContent() {
                                         return (
                                             <div className={accentDisabled ? 'opacity-30 pointer-events-none grayscale' : ''}>
                                                 <label className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-2 transition-colors ${accentDisabled ? 'text-gray-300' : 'text-gray-400'}`}>
-                                                    Accent Color
+                                                    Aksentfarge
                                                     {accentDisabled && <span className="ml-1 text-[9px] font-semibold text-gray-300 normal-case tracking-normal">— not available</span>}
                                                 </label>
                                                 <div className="flex gap-3 flex-wrap">
@@ -1377,7 +1373,7 @@ function BuilderContent() {
                                         );
                                     })()}
                                     <div>
-                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logo Variant</label>
+                                        <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logovariant</label>
                                         <div className="flex gap-2 flex-wrap">
                                             {[...brand.logos].map((logo, i) => ({ logo, i })).sort((a,b) => {
                                                 const ai = a.logo.isIcon ?? false; const bi = b.logo.isIcon ?? false;
@@ -1393,13 +1389,13 @@ function BuilderContent() {
                                     {brand && (
                                         <div>
                                             <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">
-                                                Logo Size
+                                                Logostørrelse
                                             </label>
                                             <div className="flex gap-2">
                                                 {[
-                                                    { label: 'Small', val: 0.75 },
+                                                    { label: 'Liten', val: 0.75 },
                                                     { label: 'Normal', val: 1.0 },
-                                                    { label: 'Large', val: 1.25 }
+                                                    { label: 'Stor', val: 1.25 }
                                                 ].map(s => (
                                                     <button key={s.label}
                                                         onClick={() => setLogoScale(s.val)}
@@ -1417,7 +1413,7 @@ function BuilderContent() {
                                     )}
                                     <div className="mt-auto pt-6 space-y-2">
                                         <button onClick={brand ? handleDownload : () => router.push("/")} disabled={isDownloading} className="w-full py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 disabled:opacity-50 hover:bg-blue-700 active:scale-95" style={{ background: '#2563EB', color: '#ffffff' }}>
-                                            {isDownloading ? <><RefreshCw className="w-5 h-5 animate-spin" /> Processing...</> : <><Download className="w-5 h-5" /> Download Banner</>}
+                                            {isDownloading ? <><RefreshCw className="w-5 h-5 animate-spin" /> Behandler...</> : <><Download className="w-5 h-5" /> Last ned banner</>}
                                         </button>
                                         <p className="text-center text-[11px] text-gray-400">LinkedIn optimised · Free · Sharp 1584x396 PNG</p>
                                     </div>
@@ -1453,10 +1449,10 @@ function BuilderContent() {
                                 <div>
                                     <h3 className="text-2xl font-black text-[#111827] flex items-center gap-2 mb-2">
                                         <CheckCircle className="w-6 h-6 text-green-500" />
-                                        Success!
+                                        Ferdig!
                                     </h3>
                                     <p className="text-sm text-gray-500 font-medium">
-                                        Your banner has been saved to your <span className="text-[#111827] font-bold">Downloads</span> or <span className="text-[#111827] font-bold">Photos</span> app.
+                                        Banneret ditt er lagret i <span className="text-[#111827] font-bold">Nedlastinger</span> eller <span className="text-[#111827] font-bold">Bilder</span>-appen.
                                     </p>
                                 </div>
                                 <button
@@ -1469,22 +1465,22 @@ function BuilderContent() {
 
                             {/* Body */}
                             <div className="p-6 bg-gray-50 overflow-y-auto space-y-4 flex-1">
-                                <h4 className="text-xs font-black uppercase tracking-widest text-gray-400">How to update your LinkedIn</h4>
+                                <h4 className="text-xs font-black uppercase tracking-widest text-gray-400">Slik oppdaterer du LinkedIn</h4>
 
                                 <div className="space-y-4">
                                     <div className="flex gap-4">
                                         <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black flex-shrink-0 text-sm">1</div>
                                         <div>
-                                            <p className="font-bold text-[#111827]">Go to your LinkedIn profile</p>
-                                            <p className="text-sm text-gray-500 mt-0.5">Open the LinkedIn app or website and view your own profile.</p>
+                                            <p className="font-bold text-[#111827]">Gå til din LinkedIn-profil</p>
+                                            <p className="text-sm text-gray-500 mt-0.5">Åpne LinkedIn-appen eller nettsiden og gå til din egen profil.</p>
                                         </div>
                                     </div>
 
                                     <div className="flex gap-4">
                                         <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black flex-shrink-0 text-sm">2</div>
                                         <div className="flex-1">
-                                            <p className="font-bold text-[#111827]">Click the pencil icon</p>
-                                            <p className="text-sm text-gray-500 mt-0.5 mb-2">In the top right corner of your current banner area, click the edit icon.</p>
+                                            <p className="font-bold text-[#111827]">Klikk på blyantikonen</p>
+                                            <p className="text-sm text-gray-500 mt-0.5 mb-2">I øvre høyre hjørne av bannerområdet, klikk på redigeringsikonet.</p>
 
                                             {/* Visual mockup of LinkedIn banner area */}
                                             <div className="bg-white rounded-xl border border-gray-200 shadow-sm relative overflow-hidden h-28 select-none">
@@ -1500,8 +1496,8 @@ function BuilderContent() {
                                     <div className="flex gap-4">
                                         <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black flex-shrink-0 text-sm">3</div>
                                         <div>
-                                            <p className="font-bold text-[#111827]">Upload and apply</p>
-                                            <p className="text-sm text-gray-500 mt-0.5">Select your downloaded image, position it, and click 'Apply'.</p>
+                                            <p className="font-bold text-[#111827]">Last opp og bruk</p>
+                                            <p className="text-sm text-gray-500 mt-0.5">Velg det nedlastede bildet, plasser det, og klikk «Bruk».</p>
                                         </div>
                                     </div>
                                 </div>
@@ -1513,13 +1509,13 @@ function BuilderContent() {
                                     onClick={() => setShowDownloadPopup(false)}
                                     className="flex-1 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest border-2 border-gray-100 text-[#111827] hover:bg-gray-50 transition-colors active:scale-95"
                                 >
-                                    Make another
+                                    Lag et nytt
                                 </button>
                                 <button
                                     onClick={() => router.push('/')}
                                     className="flex-1 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest bg-gray-900 text-white hover:bg-gray-800 transition-colors shadow-lg active:scale-95"
                                 >
-                                    Back to Home
+                                    Tilbake til start
                                 </button>
                             </div>
                         </motion.div>
