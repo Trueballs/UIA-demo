@@ -215,7 +215,7 @@ function SmartLogo({
                     objectFit: "contain", 
                     objectPosition: align === "center" ? "center" : `center ${align === "flex-start" ? "top" : "bottom"}`,
                     display: "block",
-                    mixBlendMode: (hasBg && !panelDark) ? "multiply" : "normal",
+                    mixBlendMode: (hasBg && !isLight) ? "multiply" : "normal",
                     filter: !hasBg ? "drop-shadow(0px 2px 2px rgba(0,0,0,0.15))" : "none",
                 }}
                 onError={() => setErr(true)} />
@@ -827,6 +827,7 @@ function BuilderContent() {
     const [textSize, setTextSize] = useState(1.0);
     const [textStyle, setTextStyle] = useState<"blocky" | "elegant" | "mono">("blocky");
     const [customImage, setCustomImage] = useState<string | null>(null);
+    const [campusFilter, setCampusFilter] = useState<'Grimstad' | 'Kristiansand'>('Kristiansand');
 
     const [scale, setScale] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -1245,13 +1246,34 @@ function BuilderContent() {
                                     {brand.images.length > 0 && (
                                         <div>
                                             <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Campus Images</label>
+                                            {/* Campus toggle */}
+                                            <div className="flex gap-1.5 mb-3">
+                                                {(['Kristiansand', 'Grimstad'] as const).map(campus => (
+                                                    <button
+                                                        key={campus}
+                                                        onClick={() => {
+                                                            setCampusFilter(campus);
+                                                            setImgIndex(0);
+                                                            setCustomImage(null);
+                                                        }}
+                                                        className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest transition-all active:scale-95"
+                                                        style={{
+                                                            background: campusFilter === campus ? primary : '#f1f5f9',
+                                                            color: campusFilter === campus ? '#fff' : '#64748b',
+                                                            border: `2px solid ${campusFilter === campus ? primary : 'transparent'}`,
+                                                        }}
+                                                    >
+                                                        {campus}
+                                                    </button>
+                                                ))}
+                                            </div>
                                             <div className="flex gap-2 flex-wrap items-center">
                                                 {/* Upload Button */}
                                                 <label className="w-11 h-7 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all group active:scale-95">
-                                                    <input 
-                                                        type="file" 
-                                                        accept="image/*" 
-                                                        className="hidden" 
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
                                                         onChange={(e) => {
                                                             const file = e.target.files?.[0];
                                                             if (file) {
@@ -1270,11 +1292,11 @@ function BuilderContent() {
                                                 {/* Custom Image Preview */}
                                                 {customImage && (
                                                     <div className="relative group" style={{ width: 44, height: 28 }}>
-                                                        <button 
+                                                        <button
                                                             onClick={() => {
                                                                 setImgIndex(-1);
-                                                            }} 
-                                                            className="w-full h-full rounded-lg overflow-hidden transition-all hover:scale-110 active:scale-95 relative" 
+                                                            }}
+                                                            className="w-full h-full rounded-lg overflow-hidden transition-all hover:scale-110 active:scale-95 relative"
                                                             style={{ outline: imgIndex === -1 ? `3px solid #2563EB` : '2px solid transparent', outlineOffset: 2 }}>
                                                             <img src={customImage} alt="Uploaded" className="w-full h-full object-cover" />
                                                             {imgIndex === -1 && (
@@ -1286,28 +1308,35 @@ function BuilderContent() {
                                                     </div>
                                                 )}
 
-                                                {brand.images.map((img, i) => (
-                                                    <div key={i} className="relative group" style={{ width: 44, height: 28 }}>
+                                                {brand.images.filter(img => img.includes(campusFilter)).map((img) => {
+                                                    const actualIdx = brand.images.indexOf(img);
+                                                    return (
+                                                    <div key={actualIdx} className="relative group" style={{ width: 44, height: 28 }}>
                                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-150 ease-out scale-95 group-hover:scale-100 w-64 aspect-[4/1] rounded-xl overflow-hidden shadow-2xl border-2 border-white ring-1 ring-black/5">
                                                             <img src={img} alt="" className="w-full h-full object-cover" />
                                                         </div>
-                                                        <button 
+                                                        <button
                                                             onClick={() => {
-                                                                setImgIndex(i);
+                                                                setImgIndex(actualIdx);
                                                                 setCustomImage(null);
-                                                            }} 
-                                                            className="w-full h-full rounded-lg overflow-hidden transition-all hover:scale-110 active:scale-95" 
-                                                            style={{ outline: imgIndex === i ? `3px solid #2563EB` : '2px solid transparent', outlineOffset: 2 }}>
+                                                            }}
+                                                            className="w-full h-full rounded-lg overflow-hidden transition-all hover:scale-110 active:scale-95"
+                                                            style={{ outline: imgIndex === actualIdx ? `3px solid #2563EB` : '2px solid transparent', outlineOffset: 2 }}>
                                                             <img src={img} alt="" className="w-full h-full object-cover" />
                                                         </button>
                                                     </div>
-                                                ))}
+                                                    );
+                                                })}
                                             </div>
-                                            {brand.images.length > 1 && (
-                                                <p className="text-xs text-gray-400 mt-2">
-                                                    {customImage ? "Custom image uploaded" : `Photo ${(imgIndex % brand.images.length) + 1} of ${brand.images.length} selected`}
-                                                </p>
-                                            )}
+                                            {brand.images.length > 1 && (() => {
+                                                const filtered = brand.images.filter(img => img.includes(campusFilter));
+                                                const pos = imgIndex >= 0 ? filtered.indexOf(brand.images[imgIndex]) : -1;
+                                                return (
+                                                    <p className="text-xs text-gray-400 mt-2">
+                                                        {customImage ? "Custom image uploaded" : pos >= 0 ? `${campusFilter} — photo ${pos + 1} of ${filtered.length}` : `${campusFilter} — ${filtered.length} photos`}
+                                                    </p>
+                                                );
+                                            })()}
                                         </div>
                                     )}
 
