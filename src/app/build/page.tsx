@@ -1098,7 +1098,7 @@ function BuilderContent() {
                         <div className="flex items-center justify-end mb-2 mr-1">
                             <div className="flex items-center gap-2 opacity-80">
                                 <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(37,99,235,0.6)]" />
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Live Preview</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Forhåndsvisning</span>
                             </div>
                         </div>
 
@@ -1411,7 +1411,7 @@ function BuilderContent() {
                                         <button onClick={brand ? handleDownload : () => router.push("/")} disabled={isDownloading} className="w-full py-5 rounded-2xl font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20 disabled:opacity-50 hover:bg-blue-700 active:scale-95" style={{ background: '#2563EB', color: '#ffffff' }}>
                                             {isDownloading ? <><RefreshCw className="w-5 h-5 animate-spin" /> Behandler...</> : <><Download className="w-5 h-5" /> Last ned banner</>}
                                         </button>
-                                        <p className="text-center text-[11px] text-gray-400">LinkedIn optimised · Free · Sharp 1584x396 PNG</p>
+                                        <p className="text-center text-[11px] text-gray-400">LinkedIn-optimalisert · Skarp 1584x396 PNG</p>
                                     </div>
                                 </div>
                             </>
