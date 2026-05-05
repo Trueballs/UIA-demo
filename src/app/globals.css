@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F8FAFC;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --linkedin-blue: #2563EB;
+  --linkedin-blue-hover: #1D4ED8;
+  --border: rgba(0, 0, 0, 0.05);
+  --ring: #2563EB;
+  --radius: 1.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-linkedin: var(--linkedin-blue);
+  --color-linkedin-hover: var(--linkedin-blue-hover);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-sm: calc(var(--radius) - 8px);
+  
+  --font-sans: var(--font-lexend), var(--font-geist), sans-serif;
+  --font-lexend: var(--font-lexend), sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-lexend);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom premium card */
+.premium-card {
+  background-color: var(--card);
+  border-radius: 2.5rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.05), 0 30px 60px -30px rgba(0, 0, 0, 0.08);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 250s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Glowing animated border for hero visualization */
+.glowing-border-wrap {
+  border: 0.5px solid transparent;
+  border-radius: 1.1rem;
+  background-image:
+    linear-gradient(45deg, #1d4ed8, #3b82f6, #60a5fa, #93c5fd, #2563eb, #1d4ed8, #3b82f6, #60a5fa);
+  background-origin: border-box;
+  background-clip: border-box;
+  background-size: 400%;
+  animation: glowing-steam 12s linear infinite;
+}
+
+@keyframes glowing-steam {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}

@@ -1,0 +1,32 @@
+{
+  "university": "UiA",
+  "name": "Universitetet i Agder",
+  "colors": [
+    {
+      "hex": "#C8102E",
+      "name": "UiA Red",
+      "role": "main",
+      "weight": 1
+    },
+    {
+      "hex": "#131E29",
+      "name": "UiA Blue",
+      "role": "dark",
+      "weight": 2
+    },
+    {
+      "hex": "#F8EDDD",
+      "name": "UiA Warm Gray",
+      "role": "light",
+      "weight": 3
+    }
+  ],
+  "fonts": [
+    {
+      "name": "Inter",
+      "role": "primary",
+      "type": "sans-serif",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "university": "UiA",
+  "colors": [
+    {
+      "hex": "#003865",
+      "name": "Navy",
+      "role": "main",
+      "weight": 1
+    },
+    {
+      "hex": "#c8a327",
+      "name": "Gold",
+      "role": "secondary",
+      "weight": 2
+    },
+    {
+      "hex": "#ffffff",
+      "name": "White",
+      "role": "light",
+      "weight": 3
+    }
+  ]
+}

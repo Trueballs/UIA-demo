@@ -1,0 +1,283 @@
+{
+  "name": "UCL",
+  "fullName": "University College London",
+  "domain": "ucl.ac.uk",
+  "folder": "UCL",
+  "root": "uk-universities",
+  "logo": "/api/logo?domain=ucl.ac.uk",
+  "fullLogo": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n(1).png&v=1777498636438&w=800&w=800",
+  "iconLogo": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n.jpg&v=1777498636359&w=800&w=800",
+  "logoHasBg": true,
+  "logos": [
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n(1).png&v=1777498636438&w=800",
+      "hasBg": true,
+      "isLight": false,
+      "logoColor": "#993bff",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "616172986_1297759015715287_4670572216606312291_n(1).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n(2).png&v=1777498636436&w=800",
+      "hasBg": true,
+      "isLight": false,
+      "logoColor": "#361a54",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "616172986_1297759015715287_4670572216606312291_n(2).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n(3).png&v=1777498636435&w=800",
+      "hasBg": true,
+      "isLight": true,
+      "logoColor": "#33d6ff",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "616172986_1297759015715287_4670572216606312291_n(3).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n(4).png&v=1777498636439&w=800",
+      "hasBg": true,
+      "isLight": false,
+      "logoColor": "#000000",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "616172986_1297759015715287_4670572216606312291_n(4).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n.png&v=1777498636454&w=800",
+      "hasBg": true,
+      "isLight": true,
+      "logoColor": "#eddff7",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "616172986_1297759015715287_4670572216606312291_n.png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20purpel%20and%20pink(6)(1).png&v=1777498636440&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": "#33d6ff",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo purpel and pink(6)(1).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20purpel%20and%20pink(6)(2).png&v=1777498636432&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#361a54",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo purpel and pink(6)(2).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20purpel%20and%20pink(6)(3).png&v=1777498636440&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#993bff",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo purpel and pink(6)(3).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20purpel%20and%20pink(6)(4).png&v=1777498636444&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#000000",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo purpel and pink(6)(4).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20purpel%20dand%20pink(6).png&v=1777498636444&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": null,
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo purpel dand pink(6).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20whitde(2).png&v=1777498636446&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#000000",
+      "isIcon": false,
+      "isText": true,
+      "score": 10,
+      "filename": "ucl logo whitde(2).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(1).png&v=1777498636445&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": "#33d6ff",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(1).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(10).png&v=1777498636453&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#000000",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(10).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(2).png&v=1777498636450&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#321951",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(2).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(3).png&v=1777498636456&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#993bff",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(3).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(5).png&v=1777498636453&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#3a1659",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(5).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(6).png&v=1777498636460&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#361a53",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(6).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(7).png&v=1777498636459&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": "#33d6ff",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(7).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(8).png&v=1777498636461&w=800",
+      "hasBg": false,
+      "isLight": false,
+      "logoColor": "#993bff",
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(8).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20white(9).png&v=1777498636465&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": null,
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo white(9).png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=ucl%20logo%20whited.png&v=1777498636466&w=800",
+      "hasBg": false,
+      "isLight": true,
+      "logoColor": null,
+      "isIcon": false,
+      "isText": true,
+      "score": 0,
+      "filename": "ucl logo whited.png",
+      "preferredBg": null
+    },
+    {
+      "url": "/api/full-logo?domain=ucl.ac.uk&file=616172986_1297759015715287_4670572216606312291_n.jpg&v=1777498636359&w=800",
+      "hasBg": true,
+      "isLight": true,
+      "logoColor": "#983bfe",
+      "isIcon": false,
+      "isText": true,
+      "score": -5,
+      "filename": "616172986_1297759015715287_4670572216606312291_n.jpg",
+      "preferredBg": null
+    }
+  ],
+  "colors": [
+    "#361A54",
+    "#30D6FF",
+    "#993BFF",
+    "#111111",
+    "#ffffff"
+  ],
+  "fonts": [
+    "DM Sans",
+    "Aptos"
+  ],
+  "images": [
+    "/uk-universities/UCL/Bilder_HighRez/161214_UCL_Bartlett_011.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/979_main_quad_press_image_plan_landscape.png",
+    "/uk-universities/UCL/Bilder_HighRez/979_main_quad_press_image_stage_landscape.png",
+    "/uk-universities/UCL/Bilder_HighRez/ATWEB-NickHareArchitects-UCL-phAlanWilliams-10.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/SW_UCL_East_Marshgate_London_HuftonCrow_073_cropped_2_hJq3v6v_medium.webp",
+    "/uk-universities/UCL/Bilder_HighRez/Screenshot 2026-03-05 at 14.14.45.png",
+    "/uk-universities/UCL/Bilder_HighRez/UCL University College London - Federation member of University of London.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/UCL_Bedford_Way.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/University College London Hospitals NHS Foundation Trust (U.jpeg",
+    "/uk-universities/UCL/Bilder_HighRez/istockphoto-815582418-612x612.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/marshgate-ucl-east-stanton-williams_4.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/portico-works-visualisation.jpg",
+    "/uk-universities/UCL/Bilder_HighRez/ucl-cancer-institute_content_4f6969eb.webp",
+    "/uk-universities/UCL/Bilder_HighRez/ucl_east_marshgate_exterior_panorama.avif",
+    "/uk-universities/UCL/Bilder_HighRez/wide-fullhd-ucl-university-college-london.jpg"
+  ]
+}
