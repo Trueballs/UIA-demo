@@ -1373,7 +1373,7 @@ function BuilderContent() {
                                                 const ai = a.logo.isIcon ?? false; const bi = b.logo.isIcon ?? false;
                                                 return ai === bi ? 0 : (ai ? 1 : -1);
                                             }).map(({ logo, i }) => (
-                                                <button key={i} onClick={() => setLogoIndex(i)} className="w-14 h-14 rounded-lg border-2 flex items-center justify-center p-1.5 transition-all hover:shadow-md relative overflow-hidden" style={{ borderColor: logoIndex === i ? primary : "#e5e7eb", background: logoIndex === i ? `${primary}10` : (logo.isLight ? "#334155" : "#e2e8f0") }}>
+                                                <button key={i} onClick={() => setLogoIndex(i)} className="w-14 h-14 rounded-lg border-2 flex items-center justify-center p-1.5 transition-all hover:shadow-md relative overflow-hidden" style={{ borderColor: logoIndex === i ? primary : "#e5e7eb", background: logo.isLight ? "#334155" : "#f1f5f9" }}>
                                                     <img src={logo.url} alt="" className="w-full h-full object-contain relative z-10" style={{ filter: 'none' }} onError={e => (e.currentTarget.style.display = "none")} />
                                                 </button>
                                             ))}
