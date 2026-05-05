@@ -1386,10 +1386,6 @@ function BuilderContent() {
                                     <div>
                                         <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Logo Variant</label>
                                         <div className="flex gap-2 flex-wrap">
-                                            <button onClick={() => setLogoIndex(-1)} className="w-14 h-14 rounded-lg border-2 flex flex-col items-center justify-center p-1.5 transition-all hover:shadow-md" style={{ borderColor: logoIndex === -1 ? primary : "#e5e7eb", background: logoIndex === -1 ? `${primary}10` : "#f9fafb", color: logoIndex === -1 ? primary : "#9ca3af" }}>
-                                                <Ban className="w-4 h-4 mb-0.5" />
-                                                <span className="text-[8px] font-black uppercase tracking-widest">None</span>
-                                            </button>
                                             {[...brand.logos].map((logo, i) => ({ logo, i })).sort((a,b) => {
                                                 const ai = a.logo.isIcon ?? false; const bi = b.logo.isIcon ?? false;
                                                 return ai === bi ? 0 : (ai ? 1 : -1);
