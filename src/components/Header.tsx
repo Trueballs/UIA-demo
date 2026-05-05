@@ -56,10 +56,10 @@ export default function Header({ showStartButton = false, showBackButton = false
         <div className="flex items-center justify-end gap-3 md:gap-4">
           {showBackButton && (
             <button
-              onClick={() => router.push("/")}
+              onClick={() => { localStorage.removeItem("uia_demo_auth"); router.push("/"); }}
               className="px-5 md:px-7 py-2 md:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-[13px] md:text-sm rounded-full transition-all flex items-center gap-2 active:scale-95 border border-slate-200/50"
             >
-              <ArrowLeft className="w-3.5 md:w-4 h-3.5 md:h-4" /> Tilbake
+              Logg ut
             </button>
           )}
 
