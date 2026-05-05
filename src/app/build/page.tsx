@@ -336,8 +336,8 @@ function L0({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
             <div className="w-[1px] h-full bg-white/10 z-20" />
 
             {/* Right: Solid Brand Panel */}
-            <div className="flex-1 flex flex-col items-center justify-center p-12 text-center gap-8">
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+            <div className="flex-1 flex flex-col items-center justify-center p-12 text-center gap-8 overflow-hidden">
+                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={140} maxW={380} brandColors={brand.colors} scale={logoScale} />
                 
                 {text && (
                     <p style={{
@@ -377,9 +377,9 @@ function L1({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
                 opacity: 0.9,
             }} />
 
-            <div className="absolute inset-y-0 right-0 w-[550px] flex flex-col items-center justify-center p-12 z-10">
+            <div className="absolute inset-y-0 right-0 w-[550px] flex flex-col items-center justify-center p-12 z-10 overflow-hidden">
                 <div className="flex flex-col items-center gap-8">
-                    <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+                    <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={140} maxW={380} brandColors={brand.colors} scale={logoScale} />
                     {text && (
                         <p style={{
                             color: headlineColor, fontSize: 26 * textSize, fontWeight: 900,
@@ -413,12 +413,12 @@ function L2({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
                 <img src={img} alt="" crossOrigin="anonymous" className="absolute inset-0 w-full h-full object-cover" style={{ filter: photoFilter }} />
             )}
 
-            <div className="absolute inset-y-0 right-0 flex flex-col items-center justify-center gap-8"
+            <div className="absolute inset-y-0 right-0 flex flex-col items-center justify-center gap-8 overflow-hidden"
                 style={{
                     width: PANEL_W, background: primary, zIndex: 10, padding: "48px",
                     clipPath: 'polygon(60px 0, 100% 0, 100% 100%, 0 100%)'
                 }}>
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={140} maxW={380} brandColors={brand.colors} scale={logoScale} />
                 
                 {text && (
                     <p style={{
@@ -446,9 +446,9 @@ function L3({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
     const font = getHeadlineFont(textStyle, brand.domain);
 
     return (
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center" style={{ background: primary }}>
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center overflow-hidden" style={{ background: primary }}>
             <div className="flex flex-col items-center gap-8" style={{ width: 660 }}>
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={140} maxW={380} brandColors={brand.colors} scale={logoScale} />
                 {text && (
                     <p style={{
                         color: headlineColor, fontSize: 28 * textSize, fontWeight: 900, lineHeight: 1.15,
@@ -541,8 +541,8 @@ function L5({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
                 {img && <img src={img} alt="" crossOrigin="anonymous" className="absolute inset-0 w-full h-full object-cover" style={{ filter: photoFilter }} />}
             </div>
 
-            <div className="w-[500px] flex flex-col items-center justify-center p-12 text-center gap-10 z-10" style={{ background: primary }}>
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+            <div className="w-[500px] flex flex-col items-center justify-center p-12 text-center gap-10 z-10 overflow-hidden" style={{ background: primary }}>
+                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={140} maxW={380} brandColors={brand.colors} scale={logoScale} />
                 {text && (
                     <p style={{
                         color: headlineColor, fontSize: 24 * textSize, fontWeight: 900, lineHeight: 1.15,
@@ -567,12 +567,12 @@ function L6({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
         <div className="absolute inset-0 overflow-hidden bg-white">
             {img && <img src={img} alt="" crossOrigin="anonymous" className="absolute inset-0 w-3/5 h-full object-cover" style={{ filter: photoFilter }} />}
 
-            <div className="absolute top-0 bottom-0 right-0 flex flex-col items-center justify-center gap-8 p-16"
+            <div className="absolute top-0 bottom-0 right-0 flex flex-col items-center justify-center gap-8 p-16 overflow-hidden"
                 style={{
                     width: "55%", background: primary, zIndex: 10,
                     clipPath: 'polygon(120px 0, 100% 0, 100% 100%, 0 100%)'
                 }}>
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={180} maxW={400} brandColors={brand.colors} scale={logoScale} />
+                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={primary} h={120} maxW={360} brandColors={brand.colors} scale={logoScale} />
 
                 {text && (
                     <p style={{
