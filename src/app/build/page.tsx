@@ -615,48 +615,6 @@ function L7({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
 
 
 /* ═══════════════════════════════════════════════════════════════
-   LAYOUT 8 — "VERTICAL STRIPES"
-   Two thin white vertical dividers split the banner into a 1:1
-   square (logo), another square, and a wide right field.
-═══════════════════════════════════════════════════════════════ */
-const L8_STRIPE_IMAGES: Record<number, string> = {
-    0: "/layout-assets/ucl-stripes-header dark purple.png",
-    1: "/layout-assets/ucl-stripes-header light blue.png",
-    2: "/layout-assets/ucl-stripes-header bright purple.png",
-    3: "/layout-assets/ucl-stripes-header black.png",
-    4: "/layout-assets/ucl-stripes-header white.png",
-};
-
-function L8({ logoScale = 1.0, brand, logoSrc, logoHasBg, logoIsLight, img, photoFilter = "none", tintIndex = 0 }: LayoutProps) {
-    const stripeSrc = L8_STRIPE_IMAGES[tintIndex] ?? L8_STRIPE_IMAGES[0];
-    const panelColor = brand.colors[tintIndex] ?? "#361A54";
-    // Stripes image: 672×333 scaled to banner height → ~799px wide, flush right
-    const IMG_W = Math.round(672 * (H / 333)); // ~799px
-    // Logo sits in the large rightmost dark block (~53% into the stripes image)
-    const LOGO_LEFT = W - IMG_W + Math.round(IMG_W * 0.53);
-    const LOGO_W = W - LOGO_LEFT;
-    return (
-        <div className="absolute inset-0 overflow-hidden" style={{ width: W, height: H, background: panelColor }}>
-            {/* Campus photo fills entire banner as base layer */}
-            {img && (
-                <img src={img} alt="" crossOrigin="anonymous"
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", filter: photoFilter }} />
-            )}
-            {/* Stripes image — solid/opaque (not transparent) */}
-            <img
-                src={stripeSrc}
-                alt=""
-                style={{ position: "absolute", right: 0, top: 0, width: IMG_W, height: H, objectFit: "fill" }}
-            />
-            {/* Logo centred in the large right dark block */}
-            <div className="absolute flex items-center justify-center" style={{ left: LOGO_LEFT, top: 0, width: LOGO_W, height: H }}>
-                <SmartLogo src={logoSrc} hasBg={logoHasBg} isLight={logoIsLight} panelColor={panelColor} h={200} maxW={360} brandColors={brand.colors} scale={logoScale} />
-            </div>
-        </div>
-    );
-}
-
-/* ═══════════════════════════════════════════════════════════════
    BANNER WRAPPER — routes to the right layout
 ═══════════════════════════════════════════════════════════════ */
 function BannerCanvas({
@@ -710,7 +668,7 @@ function BannerCanvas({
     // Check for logo-background similarity
     const logoIsSimilar = activeLogoColor ? colorsAreSimilar(activeLogoColor, primary) : (!logoIsLight && isDark(primary)) || (logoIsLight && !isDark(primary));
 
-    if (tintIndex === -1 && layout !== 8) {
+    if (tintIndex === -1) {
         if ((!logoIsLight && bgIsDark) || logoIsSimilar) {
             primary = pickBestPanelColor(activeLogoColor ?? null, (logoIsLight !== undefined ? logoIsLight : true), brand.colors, primary);
             secondary = brand.colors.find(c => c !== primary) ?? (isDark(primary) ? "#ffffff" : "#111111");
@@ -744,7 +702,6 @@ function BannerCanvas({
             {layout === 5 && <L5 {...p} />}
             {layout === 6 && <L6 {...p} />}
             {layout === 7 && <L7 {...p} />}
-            {layout === 8 && <L8 {...p} />}
 
             <GrainOverlay />
             <FrameOverlay />
@@ -839,26 +796,12 @@ const THUMB_CONFIGS: { label: string; preview: (color: string, accent: string) =
             </div>
         ),
     },
-    {
-        label: "Vertical Stripes",
-        preview: (c) => (
-            <div className="w-full h-full flex overflow-hidden" style={{ background: c }}>
-                <div style={{ width: "25%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ width: "55%", height: "30%", background: "rgba(255,255,255,0.3)", borderRadius: 2 }} />
-                </div>
-                <div style={{ width: 3, background: "#ffffff", height: "100%" }} />
-                <div style={{ width: "25%", height: "100%" }} />
-                <div style={{ width: 3, background: "#ffffff", height: "100%" }} />
-                <div style={{ flex: 1, height: "100%" }} />
-            </div>
-        ),
-    },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
    MAIN PAGE
 ═══════════════════════════════════════════════════════════════ */
-const LAYOUTS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const LAYOUTS = [0, 1, 2, 3, 4, 5, 6, 7];
 
 function BuilderContent() {
     const params = useSearchParams();
@@ -1259,7 +1202,7 @@ function BuilderContent() {
                                                 <ChevronLeft className="w-4 h-4" />
                                             </button>
                                             <div className="flex gap-1 flex-1">
-                                                {([0, 1, 2, 3, 4, 5, 6, 7, 8] as Layout[]).map(l => (
+                                                {([0, 1, 2, 3, 4, 5, 6, 7] as Layout[]).map(l => (
                                                     <button key={l}
                                                         onClick={() => setLayout(l)}
                                                         className="flex-1 aspect-[4/1] rounded-xl overflow-hidden transition-all hover:scale-105 active:scale-95"
