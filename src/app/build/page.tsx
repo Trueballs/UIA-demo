@@ -1390,9 +1390,8 @@ function BuilderContent() {
                                                 const ai = a.logo.isIcon ?? false; const bi = b.logo.isIcon ?? false;
                                                 return ai === bi ? 0 : (ai ? 1 : -1);
                                             }).map(({ logo, i }) => (
-                                                <button key={i} onClick={() => setLogoIndex(i)} className="w-14 h-14 rounded-lg border-2 flex items-center justify-center p-1.5 transition-all hover:shadow-md relative overflow-hidden" style={{ borderColor: logoIndex === i ? primary : "#e5e7eb", background: logoIndex === i ? `${primary}10` : "#f9fafb" }}>
-                                                    {logo.isLight && <div className="absolute inset-0 bg-slate-700 pointer-events-none" />}
-                                                    <img src={logo.url} alt="" className="w-full h-full object-contain relative z-10" style={{ mixBlendMode: (logo.hasBg && !logo.isLight) ? "multiply" : undefined, filter: logo.isLight ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' : 'none' }} onError={e => (e.currentTarget.style.display = "none")} />
+                                                <button key={i} onClick={() => setLogoIndex(i)} className="w-14 h-14 rounded-lg border-2 flex items-center justify-center p-1.5 transition-all hover:shadow-md relative overflow-hidden" style={{ borderColor: logoIndex === i ? primary : "#e5e7eb", background: logoIndex === i ? `${primary}10` : (logo.isLight ? "#334155" : "#e2e8f0") }}>
+                                                    <img src={logo.url} alt="" className="w-full h-full object-contain relative z-10" style={{ filter: 'none' }} onError={e => (e.currentTarget.style.display = "none")} />
                                                 </button>
                                             ))}
                                         </div>
