@@ -37,7 +37,7 @@ export default function Home() {
 
                 <div className="w-full lg:w-max flex justify-center lg:justify-start group">
                   <button
-                    onClick={() => router.push("/build?domain=ucl.ac.uk")}
+                    onClick={() => router.push("/build?domain=uia.no")}
                     className="px-10 md:px-12 py-5 md:py-6 bg-blue-600 text-white font-bold text-[18px] md:text-[20px] rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg flex items-center justify-center gap-4 active:scale-95"
                   >
                     Create your banner
