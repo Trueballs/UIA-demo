@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, Suspense } from "react";
 import { Download, RefreshCw, X, CheckCircle, Upload } from "lucide-react";
-import { toBlob } from "html-to-image";
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Header from "@/components/Header";
@@ -575,7 +574,7 @@ function L7({ textSize = 1.0, textStyle = "blocky", logoScale = 1.0, brand, text
 ═══════════════════════════════════════════════════════════════ */
 function BannerCanvas({
     brand, text, layout, imgIndex, logoIndex,
-    logoPos = 'bottom', bgStyle = 'none', tintIndex = 0, bgOpacity = 100, photoFilter = "none", logoScale = 1.0, textSize = 1.0, textStyle = "blocky", customImage = null, dataUrlCache = new Map()
+    logoPos = 'bottom', bgStyle = 'none', tintIndex = 0, bgOpacity = 100, photoFilter = "none", logoScale = 1.0, textSize = 1.0, textStyle = "blocky", customImage = null,
 }: {
     brand: BrandData; text: string; layout: Layout; imgIndex: number; logoIndex: number;
     logoPos?: 'top' | 'bottom' | 'center';
@@ -587,13 +586,9 @@ function BannerCanvas({
     textSize?: number;
     textStyle?: "blocky" | "elegant" | "mono";
     customImage?: string | null;
-    dataUrlCache?: Map<string, string>;
 }) {
-    // Use cached Base64 data URL when available (iOS Safari canvas taint fix)
-    const resolve = (url: string | undefined): string => url ? (dataUrlCache.get(url) ?? url) : '';
-
     const img = customImage || (brand.images.length > 0
-        ? resolve(brand.images[imgIndex % brand.images.length])
+        ? brand.images[imgIndex % brand.images.length]
         : undefined);
 
     // Resolve active logo from logoIndex
@@ -601,7 +596,7 @@ function BannerCanvas({
     const activeLogo = (brand.logos.length > 0 && !noLogo)
         ? brand.logos[logoIndex % brand.logos.length]
         : null;
-    const logoSrc = noLogo ? "" : resolve(activeLogo?.url ?? brand.fullLogo);
+    const logoSrc = noLogo ? "" : (activeLogo?.url ?? brand.fullLogo ?? "");
     const logoHasBg = activeLogo?.hasBg ?? brand.logoHasBg;
     const logoIsLight = activeLogo?.isLight !== false;
     const activeLogoColor = activeLogo?.logoColor;
@@ -752,7 +747,6 @@ function BuilderContent() {
     const params = useSearchParams();
     const router = useRouter();
     const bannerRef = useRef<HTMLDivElement>(null);
-    const exportRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [brand, setBrand] = useState<BrandData | null>(null);
@@ -775,42 +769,6 @@ function BuilderContent() {
     const [loading, setLoading] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
     const [showDownloadPopup, setShowDownloadPopup] = useState(false);
-    const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-    // Pre-fetched Base64 Data URLs keyed by original URL (iOS Safari fix)
-    const [dataUrlCache, setDataUrlCache] = useState<Map<string, string>>(new Map());
-
-    const [fontCss, setFontCss] = useState<string | null>(null);
-
-    // Dynamic Google Font Injection (Safe inline method)
-    useEffect(() => {
-        const fontName = brand?.fonts?.[0];
-        if (!fontName) return;
-        
-        let isMounted = true;
-        const fontUrl = `https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;700&family=${fontName.replace(/\s+/g, "+")}:wght@400;700;800;900&display=swap`;
-        
-        fetch(fontUrl)
-            .then(r => {
-                if (!r.ok) throw new Error("Font fetch failed");
-                return r.text();
-            })
-            .then(text => {
-                if (!isMounted) return;
-                // Only apply if it's a valid CSS file (avoiding 400 Bad Request HTML from Google)
-                if (text.includes("@font-face")) {
-                    setFontCss(text);
-                } else {
-                    setFontCss(null);
-                }
-            })
-            .catch(e => {
-                if (!isMounted) return;
-                console.warn("Retrying font fetch via standard link (CORS or network issue)...", e);
-                setFontCss(null);
-            });
-            
-        return () => { isMounted = false; };
-    }, [brand?.fonts]);
 
     // Prevent background scrolling when modal is open
     useEffect(() => {
@@ -850,44 +808,17 @@ function BuilderContent() {
         let path = `/api/brand?q=${encodeURIComponent(domain)}`;
         if (campus) path += `&campus=${encodeURIComponent(campus)}`;
         
-        const toDataUrl = async (url: string): Promise<string> => {
-            try {
-                const r = await fetch(url);
-                if (!r.ok) return url;
-                const blob = await r.blob();
-                return await new Promise<string>((res) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => res(reader.result as string);
-                    reader.readAsDataURL(blob);
-                });
-            } catch { return url; }
-        };
-
         fetch(path)
             .then(r => {
                 if (!r.ok) throw new Error(`Brand API error: ${r.status}`);
                 return r.json();
             })
-            .then(async (data: BrandData) => {
+            .then((data: BrandData) => {
                 if (!isMounted) return;
                 setBrand(data);
                 setImgIndex(0);
                 setLogoIndex(0);
-                // Show page immediately — images display fine via direct URLs.
-                // Data URLs are only needed for the download export, so we convert in background.
                 setLoading(false);
-
-                const allUrls = [
-                    data.fullLogo,
-                    data.iconLogo,
-                    ...data.images,
-                    ...data.logos.map((l: any) => l.url),
-                ].filter(Boolean) as string[];
-
-                const entries = await Promise.all(
-                    allUrls.map(async (url) => [url, await toDataUrl(url)] as [string, string])
-                );
-                if (isMounted) setDataUrlCache(new Map(entries));
             })
             .catch(err => {
                 if (!isMounted) return;
@@ -912,66 +843,47 @@ function BuilderContent() {
 
     // ── Download ──────────────────────────────────────────────
     const handleDownload = async () => {
-        if (!exportRef.current || !brand) return;
+        if (!brand) return;
         setIsDownloading(true);
         try {
             const filename = `linkedin-banner-${brand.name.toLowerCase().replace(/\s+/g, '-')}.png`;
 
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const activeLogo = brand.logos.length > 0
+                ? brand.logos[logoIndex % brand.logos.length]
+                : null;
+            const logoIsLight = activeLogo?.isLight !== false;
+            const activeLogoColor = activeLogo?.logoColor ?? null;
 
-            let blob: Blob | null = null;
+            let primaryHex = tintIndex !== -1
+                ? brand.colors[tintIndex % brand.colors.length]
+                : (activeLogo?.preferredBg ?? brand.colors[0] ?? '#003865');
 
-            if (isSafari) {
-                // ── SERVER-SIDE RENDER (Safari/iOS Fix) ───────────────────────
-                const activeLogo = brand.logos.length > 0
-                    ? brand.logos[logoIndex % brand.logos.length]
-                    : null;
-
-                let primaryHex = activeLogo?.preferredBg ?? brand.colors[0] ?? '#003865';
-                const logoIsLight = activeLogo?.isLight !== false;
-                const logoHasBg = activeLogo?.hasBg ?? brand.logoHasBg;
-                if (!logoIsLight && isDark(primaryHex)) {
-                    primaryHex = brand.colors.find(c => !isDark(c)) ?? '#ffffff';
-                } else if (logoIsLight && !isDark(primaryHex) && !logoHasBg && !activeLogo?.preferredBg) {
-                    primaryHex = brand.colors.find(c => isDark(c)) ?? '#111111';
+            if (tintIndex === -1 && !activeLogo?.preferredBg) {
+                const brightnessMismatch = logoIsLight ? !isDark(primaryHex) : isDark(primaryHex);
+                const colorTooSimilar = activeLogoColor ? colorsAreSimilar(activeLogoColor, primaryHex, 60) : false;
+                if (brightnessMismatch || colorTooSimilar) {
+                    primaryHex = pickBestPanelColor(activeLogoColor, logoIsLight, brand.colors, primaryHex);
                 }
-
-                const imageUrl = brand.images.length > 0
-                    ? brand.images[imgIndex % brand.images.length]
-                    : null;
-                const logoUrl = activeLogo?.url ?? brand.fullLogo ?? null;
-
-                const activeLogoColor = activeLogo?.logoColor;
-                let headlineColor = logoIsLight ? "#ffffff" : (activeLogoColor || brand.colors[0] || "#111111");
-                if (isDark(headlineColor) === isDark(primaryHex)) {
-                    headlineColor = isDark(primaryHex) ? "#ffffff" : "#111111";
-                }
-
-                const response = await fetch('/api/render-banner', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        imageUrl, logoUrl, primaryHex, layout, text, headlineColor, logoIsLight, photoFilter, logoPos
-                    }),
-                });
-
-                if (!response.ok) throw new Error(`Server render failed`);
-                blob = await response.blob();
-
-            } else {
-                // ── CLIENT-SIDE RENDER (PC / Mac) ────────────────────────────
-                await new Promise(r => setTimeout(r, 400));
-                blob = await toBlob(exportRef.current, {
-                    pixelRatio: 2,
-                    width: W,
-                    height: H,
-                    style: { transform: 'none', visibility: 'visible', display: 'block' },
-                });
             }
 
-            if (!blob) throw new Error("Canvas generation returned no data.");
+            let headlineColor = logoIsLight ? "#ffffff" : (activeLogoColor || brand.colors[0] || "#111111");
+            if (isDark(headlineColor) === isDark(primaryHex)) {
+                headlineColor = isDark(primaryHex) ? "#ffffff" : "#111111";
+            }
 
-            // ── UNIVERSAL DOWNLOAD METHOD ──────────────────────────────
+            const imageUrl = customImage || (brand.images.length > 0
+                ? brand.images[imgIndex % brand.images.length]
+                : null);
+            const logoUrl = activeLogo?.url ?? brand.fullLogo ?? null;
+
+            const response = await fetch('/api/render-banner', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ imageUrl, logoUrl, primaryHex, layout, text, headlineColor, logoIsLight, photoFilter, logoPos }),
+            });
+            if (!response.ok) throw new Error(`Server render failed: ${response.status}`);
+            const blob = await response.blob();
+
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
@@ -984,7 +896,7 @@ function BuilderContent() {
             setTimeout(() => setShowDownloadPopup(true), 800);
         } catch (e) {
             console.error("Export failed:", e);
-            alert("Download failed");
+            alert("Last ned feilet – prøv igjen");
         } finally {
             setIsDownloading(false);
         }
@@ -997,9 +909,6 @@ function BuilderContent() {
     return (
         <>
         <div className="min-h-screen bg-slate-50 flex flex-col items-center w-full overflow-x-hidden">
-            {/* Safe inline font CSS to prevent html-to-image CORS/SecurityError crashes */}
-            {fontCss && <style dangerouslySetInnerHTML={{ __html: fontCss }} />}
-
             {/* ── NAV ─────────────────────────────────────────── */}
             <Header showStartButton={false} showBackButton activeBrand={brand} />
 
@@ -1046,36 +955,7 @@ function BuilderContent() {
                                                 textSize={textSize}
                                                 textStyle={textStyle}
                                                 customImage={customImage}
-                                                dataUrlCache={dataUrlCache}
                                             />
-                                        </div>
-
-                                        {/* ── MASTER BANNER (FOR EXPORT) ── */}
-                                        {/* Hidden from view, keys ensure it updates instantly with NO transition states */}
-                                        <div style={{ position: 'absolute', top: -9999, left: -9999, pointerEvents: 'none' }}>
-                                            <div
-                                                ref={exportRef}
-                                                key={`export-${layout}-${imgIndex}-${logoIndex}`}
-                                                style={{ width: W, height: H, position: 'relative' }}
-                                            >
-                                                <BannerCanvas
-                                                    brand={brand}
-                                                    text={text}
-                                                    layout={layout}
-                                                    imgIndex={imgIndex}
-                                                    logoIndex={logoIndex}
-                                                    logoPos={logoPos}
-                                                    bgStyle={bgStyle}
-                                                    tintIndex={tintIndex}
-                                                    bgOpacity={bgOpacity}
-                                                    photoFilter={photoFilter}
-                                                    logoScale={logoScale}
-                                                    textSize={textSize}
-                                                    textStyle={textStyle}
-                                                    customImage={customImage}
-                                                    dataUrlCache={dataUrlCache}
-                                                />
-                                            </div>
                                         </div>
                                     </div>
                                 ) : (
