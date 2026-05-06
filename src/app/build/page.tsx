@@ -616,23 +616,16 @@ function BannerCanvas({
         secondary = brand.colors.find(c => c !== primary) || secondary;
     }
 
-    // ── SMART CONTRAST & HUE-SYNC INJECTION ──────────────────────
-    // NEW RULE: If a logo is blue, avoid blue backgrounds. More generally, 
-    // force a switch if the logo color and background are too similar.
-    const bgIsDark = isDark(primary);
-    
-    // Check for logo-background similarity
-    const logoIsSimilar = activeLogoColor ? colorsAreSimilar(activeLogoColor, primary) : (!logoIsLight && isDark(primary)) || (logoIsLight && !isDark(primary));
+    // ── AUTO CONTRAST FIX ────────────────────────────────────────
+    if (tintIndex === -1 && !activeLogo?.preferredBg) {
+        // logo and panel same brightness class → logo invisible
+        const brightnessMismatch = logoIsLight ? !isDark(primary) : isDark(primary);
+        // logo's dominant colour too close to panel colour
+        const colorTooSimilar = activeLogoColor ? colorsAreSimilar(activeLogoColor, primary, 60) : false;
 
-    if (tintIndex === -1) {
-        if ((!logoIsLight && bgIsDark) || logoIsSimilar) {
-            primary = pickBestPanelColor(activeLogoColor ?? null, (logoIsLight !== undefined ? logoIsLight : true), brand.colors, primary);
+        if (brightnessMismatch || colorTooSimilar) {
+            primary = pickBestPanelColor(activeLogoColor ?? null, logoIsLight, brand.colors, primary);
             secondary = brand.colors.find(c => c !== primary) ?? (isDark(primary) ? "#ffffff" : "#111111");
-        } else if (logoIsLight && !bgIsDark && !logoHasBg) {
-            if (!activeLogo?.preferredBg) {
-                primary = pickBestPanelColor(activeLogoColor ?? null, (logoIsLight !== undefined ? logoIsLight : true), brand.colors, primary);
-                secondary = brand.colors.find(c => c !== primary) ?? (isDark(primary) ? "#ffffff" : "#111111");
-            }
         }
     }
 
@@ -880,43 +873,21 @@ function BuilderContent() {
                 setBrand(data);
                 setImgIndex(0);
                 setLogoIndex(0);
+                // Show page immediately — images display fine via direct URLs.
+                // Data URLs are only needed for the download export, so we convert in background.
+                setLoading(false);
 
-                const priorityUrls = [
+                const allUrls = [
                     data.fullLogo,
                     data.iconLogo,
-                    data.images[0],
-                    data.logos[0]?.url,
-                    data.logos[1]?.url,
+                    ...data.images,
+                    ...data.logos.map((l: any) => l.url),
                 ].filter(Boolean) as string[];
 
-                const backgroundUrls = [
-                    ...data.images.slice(1),
-                    ...data.logos.slice(2).map((l: any) => l.url),
-                ].filter(Boolean) as string[];
-
-                // 1. Fetch priority assets immediately
-                const priorityEntries = await Promise.all(
-                    priorityUrls.map(async (url) => [url, await toDataUrl(url)] as [string, string])
+                const entries = await Promise.all(
+                    allUrls.map(async (url) => [url, await toDataUrl(url)] as [string, string])
                 );
-                
-                if (isMounted) {
-                    setDataUrlCache(new Map(priorityEntries));
-                    // 2. SET LOADING FALSE NOW - Page is usable!
-                    setLoading(false);
-                }
-
-                // 3. Fetch the rest in the background
-                const bgEntries = await Promise.all(
-                    backgroundUrls.map(async (url) => [url, await toDataUrl(url)] as [string, string])
-                );
-
-                if (isMounted) {
-                    setDataUrlCache(prev => {
-                        const newCache = new Map(prev);
-                        bgEntries.forEach(([u, d]) => newCache.set(u, d));
-                        return newCache;
-                    });
-                }
+                if (isMounted) setDataUrlCache(new Map(entries));
             })
             .catch(err => {
                 if (!isMounted) return;
