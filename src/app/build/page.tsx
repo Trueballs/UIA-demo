@@ -879,7 +879,7 @@ function BuilderContent() {
             const response = await fetch('/api/render-banner', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ imageUrl, logoUrl, primaryHex, layout, text, headlineColor, logoIsLight, photoFilter, logoPos }),
+                body: JSON.stringify({ imageUrl, logoUrl, primaryHex, layout, text, headlineColor, logoIsLight, photoFilter, logoPos, logoScale, textSize }),
             });
             if (!response.ok) throw new Error(`Server render failed: ${response.status}`);
             const blob = await response.blob();

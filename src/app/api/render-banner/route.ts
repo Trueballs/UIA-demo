@@ -58,6 +58,8 @@ export async function POST(req: NextRequest) {
             layout = 0,
             text = '',
             photoFilter = 'none',
+            logoScale = 1.0,
+            textSize = 1.0,
         } = body as {
             imageUrl?: string | null;
             logoUrl?: string | null;
@@ -67,6 +69,8 @@ export async function POST(req: NextRequest) {
             logoIsLight?: boolean;
             photoFilter?: string;
             logoPos?: 'top' | 'bottom' | 'center';
+            logoScale?: number;
+            textSize?: number;
         };
 
         const primary = hexToRgb(primaryHex);
@@ -170,9 +174,11 @@ export async function POST(req: NextRequest) {
 
         // ── 3. Logo ───────────────────────────────────────────────────
         if (logoUrl) {
-            const isFullWidth = [3, 7].includes(layout);
-            const LOGO_MAX_W = Math.min(220 * 5, 1200);
-            const LOGO_MAX_H = 220;
+            // Match client SmartLogo h/maxW values per layout, scaled by user's logoScale
+            const LOGO_BASE_H = layout === 6 ? 120 : layout === 7 ? 180 : layout === 4 ? 150 : 140;
+            const LOGO_BASE_W = layout === 6 ? 360 : layout === 7 ? 400 : layout === 4 ? 400 : 380;
+            const LOGO_MAX_H = Math.round(LOGO_BASE_H * logoScale);
+            const LOGO_MAX_W = Math.round(LOGO_BASE_W * logoScale);
 
             const logoBuf = await safeFetchPng(logoUrl, LOGO_MAX_W, LOGO_MAX_H, origin);
             if (logoBuf) {
@@ -271,7 +277,7 @@ export async function POST(req: NextRequest) {
                             width: textWidth,
                             height: textHeight,
                             color: hColor,
-                            fontSize: 30, 
+                            fontSize: Math.round(30 * textSize),
                             fontWeight: 900,
                             lineHeight: 1.15,
                             letterSpacing: '-0.02em',
